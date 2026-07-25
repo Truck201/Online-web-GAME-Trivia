@@ -1,13 +1,16 @@
 const express = require("express");
-const app = express();
+const path = require("path");
+const cors = require("cors");
+
 require("dotenv").config();
+
+const app = express();
 
 const PORT = process.env.PORT || 3000;
 
-const triviaRoutes = require("./routes/trivia");
-app.use("/api", triviaRoutes);
-app.use(express.static("public"));
-const cors = require("cors");
+app.disable("x-powered-by");
+
+app.use(express.json());
 
 app.use(
   cors({
@@ -22,31 +25,19 @@ app.use(
         return callback(null, true);
       }
 
-      console.error(`Bloqueado por CORS: origen ${origin}`);
-      return callback(new Error("No permitido por CORS"));
+      callback(new Error("No permitido por CORS"));
     },
   }),
 );
 
-app.disable("x-powered-by");
-app.use(express.json());
+app.use(express.static(path.join(__dirname, "../public")));
+
+const triviaRoutes = require("./routes/trivia");
+app.use("/api", triviaRoutes);
 
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "../public/index.html"));
-  res.status(200).send("<h1>Bienvenidos a mi página de inicio</h1>");
 });
-
-// app.get("/api/question", (req, res) => {
-//   try {
-//     console.log("Question:", question); // Verifica el contenido aquí
-//     res.json(question);
-//   } catch (error) {
-//     console.error("Error al obtener los contenidos:", error); // Agrega este log
-//     res
-//       .status(500)
-//       .json({ error: "Hubo un problema al obtener los contenidos." });
-//   }
-// });
 
 app.use((req, res) => {
   res.status(404).json({ error: "Ruta no encontrada" });
@@ -55,5 +46,3 @@ app.use((req, res) => {
 app.listen(PORT, () => {
   console.log(`Servidor iniciado en puerto ${PORT}`);
 });
-
-module.exports = app;
