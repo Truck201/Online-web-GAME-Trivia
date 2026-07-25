@@ -9,6 +9,9 @@
   "author": "HansLanda",
   "license": "ISC",
   "description": "An Online Trivia Game",
+  "engines": {
+    "node": ">=20"
+  },
   "dependencies": {
     "cors": "^2.8.6",
     "dotenv": "^17.4.2",
@@ -17,7 +20,6 @@
     "zod": "^4.4.3"
   },
   "devDependencies": {
-    "nodemon": "^3.1.14",
-    "vite": "^6.4.3"
+    "nodemon": "^3.1.14"
   }
 }

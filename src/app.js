@@ -2,6 +2,8 @@ const express = require("express");
 const app = express();
 require("dotenv").config();
 
+const PORT = process.env.PORT || 3000;
+
 const triviaRoutes = require("./routes/trivia");
 app.use("/api", triviaRoutes);
 app.use(express.static("public"));
@@ -30,6 +32,7 @@ app.disable("x-powered-by");
 app.use(express.json());
 
 app.get("/", (req, res) => {
+  res.sendFile(path.join(__dirname, "../public/index.html"));
   res.status(200).send("<h1>Bienvenidos a mi página de inicio</h1>");
 });
 
@@ -49,10 +52,8 @@ app.use((req, res) => {
   res.status(404).json({ error: "Ruta no encontrada" });
 });
 
-app.listen(process.env.PORT || 3000, () => {
-  console.log(
-    `El servidor se ejecuta en http://localhost:${process.env.PORT || 3000}`,
-  );
+app.listen(PORT, () => {
+  console.log(`Servidor iniciado en puerto ${PORT}`);
 });
 
 module.exports = app;
