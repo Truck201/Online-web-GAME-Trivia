@@ -19,6 +19,8 @@ app.use(
         process.env.FRONTEND_URL,
         "http://localhost:5173",
         "http://localhost:3000",
+        "https://online-game-trivia.onrender.com/",
+        "https://online-game-trivia.onrender.com",
       ];
 
       if (!origin || ACCEPTED_ORIGINS.includes(origin)) {
